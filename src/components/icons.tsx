@@ -18,6 +18,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu.tsx'
+import { Tooltip } from './tooltip'
 
 interface IconsProps {
     icons: string[]
@@ -49,47 +50,49 @@ const IconComponent = ({ name, size, stroke }: IconProps) => {
         `stroke-width="${stroke}"`
     )
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger
-                dangerouslySetInnerHTML={{ __html: svgIcon }}
-                className='bg-transparent focus:outline-none transition flex items-center justify-center cursor-pointer hover:bg-muted aria-expanded:ring-2 aria-expanded:ring-primary size-10 rounded-lg'
-            />
-            <DropdownMenuContent>
-                <DropdownMenuItem
-                    onSelect={() =>
-                        copySvgToClipboard({
-                            name: name,
-                            size: size,
-                            stroke: stroke
-                        })
-                    }
-                >
-                    <CleonIcons.IconFileCode /> Copy SVG
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                    onSelect={() =>
-                        copyJsxSvgToClipboard({
-                            name: name,
-                            size: size,
-                            stroke: stroke
-                        })
-                    }
-                >
-                    <CleonIcons.IconBrandReact /> Copy JSX
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => copyJsxToClipboard(name)}>
-                    <CleonIcons.IconCopy /> Copy Name
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={() => downloadSvg(svgIcon, name)}>
-                    <CleonIcons.IconDownload />
-                    Download SVG
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={async () => await downloadPng(svgIcon, name)}>
-                    <CleonIcons.IconDownload />
-                    Download PNG
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Tooltip tooltip={name}>
+            <DropdownMenu>
+                <DropdownMenuTrigger
+                    dangerouslySetInnerHTML={{ __html: svgIcon }}
+                    className='bg-transparent focus:outline-none transition flex items-center justify-center cursor-pointer hover:bg-muted aria-expanded:ring-2 aria-expanded:ring-primary size-10 rounded-lg'
+                />
+                <DropdownMenuContent>
+                    <DropdownMenuItem
+                        onSelect={() =>
+                            copySvgToClipboard({
+                                name: name,
+                                size: size,
+                                stroke: stroke
+                            })
+                        }
+                    >
+                        <CleonIcons.IconFileCode /> Copy SVG
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onSelect={() =>
+                            copyJsxSvgToClipboard({
+                                name: name,
+                                size: size,
+                                stroke: stroke
+                            })
+                        }
+                    >
+                        <CleonIcons.IconBrandReact /> Copy JSX
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => copyJsxToClipboard(name)}>
+                        <CleonIcons.IconCopy /> Copy Name
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={() => downloadSvg(svgIcon, name)}>
+                        <CleonIcons.IconDownload />
+                        Download SVG
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={async () => await downloadPng(svgIcon, name)}>
+                        <CleonIcons.IconDownload />
+                        Download PNG
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </Tooltip>
     )
 }
